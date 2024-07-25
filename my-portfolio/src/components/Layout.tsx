@@ -10,7 +10,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 {children}
             </main>
             <footer className="p-4 bg-black text-white text-center">
-                © {new Date().getFullYear()} Your Name. All rights reserved.
+                © {new Date().getFullYear()} Siddhartha Reddy Pullannagari. All rights reserved.
             </footer>
         </div>
     );

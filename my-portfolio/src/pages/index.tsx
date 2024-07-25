@@ -1,40 +1,71 @@
-// src/pages/index.tsx
 import { useEffect, useRef } from 'react';
 import Layout from '../components/Layout';
-import Typed from 'typed.js';
+import { motion } from 'framer-motion';
 
 const Home: React.FC = () => {
-    const el = useRef<HTMLSpanElement | null>(null);
-    const typed = useRef<any>(null);
+    const nameRef = useRef<HTMLDivElement | null>(null);
+    const introSectionRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        const options = {
-            strings: ['Siddhartha Reddy Pullannagari👋'],
-            typeSpeed: 50,
-            backSpeed: 50,
-            loop: true,
+        let typedText = "Siddhartha Reddy Pullannagari 👋";
+        const typingSpeed = 150; // typing speed in ms
+        let index = 0;
+
+        const type = () => {
+            if (nameRef.current) {
+                if (index < typedText.length) {
+                    nameRef.current.innerHTML += typedText.charAt(index);
+                    index++;
+                    setTimeout(type, typingSpeed);
+                } else {
+                    // Restart typing after a short delay
+                    setTimeout(() => {
+                        nameRef.current!.innerHTML = "";
+                        index = 0;
+                        type();
+                    }, 1000);
+                }
+            }
         };
 
-        typed.current = new Typed(el.current!, options);
-
-        return () => {
-            typed.current.destroy();
-        };
+        type();
     }, []);
+
+    const handleArrowClick = () => {
+        if (introSectionRef.current) {
+            introSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <Layout>
             <div className="flex flex-col items-center justify-center min-h-screen text-center">
-                <div className="w-48 h-48 mb-4 overflow-hidden rounded-full shadow-lg">
-                <img src="/profile.jpg" alt="Siddu" className="object-cover w-full h-full"/>
+                <div className="relative flex flex-col items-center justify-center w-full">
+                    <div ref={nameRef} className="text-6xl font-bold text-neon my-4" style={{ fontFamily: 'Rajdhani, sans-serif' }}></div>
+                    <div className="scroll-down-arrow mt-4 cursor-pointer" onClick={handleArrowClick}>
+                        <span className="text-2xl">⬇️</span>
+                    </div>
                 </div>
-                <h1 className="text-4xl font-bold text-neon">
-                    <span ref={el}></span>
-                </h1>
-                <p className="mt-4 text-lg text-gray-400">
-                    Here you can introduce yourself briefly. Highlight what you do and what makes you unique. Keep it short and engaging.
-                </p>
             </div>
+            <motion.div
+                ref={introSectionRef}
+                className="flex flex-col items-center justify-center min-h-screen text-center mt-20"
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.5, ease: 'easeOut' }}
+            >
+                <div className="profile-image-container">
+                    <img src="/profile.jpg" alt="Siddu" className="profile-image object-cover" />
+                </div>
+                <motion.p
+                    className="text-lg text-gray-400 mt-20"
+                    initial={{ opacity: 0, y: 100 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1.5, ease: 'easeOut', delay: 0.5 }}
+                >
+                    Here you can introduce yourself briefly. Highlight what you do and what makes you unique. Keep it short and engaging.
+                </motion.p>
+            </motion.div>
         </Layout>
     );
 };
