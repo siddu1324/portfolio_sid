@@ -2,13 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
     background-color: #121212;
     color: #cbd5e0;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Press Start 2P', sans-serif;
 }
 
 .text-neon {
@@ -35,4 +34,9 @@ body {
     50% {
         transform: translateY(-10px);
     }
+}
+
+.project-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
 }
